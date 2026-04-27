@@ -636,13 +636,13 @@ class Street:
                 for name in neighbour.feuds:
                     person = next(n for n in self.neighbourhood if n.name == name)
                     chance_to_file = random.randint(
-                        1, 10
-                    )  # 50% chance to file a complaint
+                        1, 100
+                    )
 
                     if (
                         person.noise_level >= 6
                         and neighbour.tolerance <= 3
-                        and chance_to_file > 5
+                        and chance_to_file > 25 # 50% chance to file a complaint
                     ):
                         print(
                             f"{neighbour.name} filed a complaint against {person.name}."
