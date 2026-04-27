@@ -1,7 +1,7 @@
 # ============================================================
 #  THE NEIGHBOURHOOD NOISE COMPLAINT SYSTEM
 #  CS30 — Object-Oriented Programming 2 (CSE3130)
-#  Divine Mustafa | Gavin Diep | Yuvraj Sond | Sebastian Villanueva
+#  Divine Mustafa
 # ============================================================
 import random
 
@@ -312,12 +312,12 @@ class NoisyNeighbour(Neighbour):
 
     def file_complaint(self, target, severity, escalated, day=0):
         """Takes the 'file_complaint' method from the neighbour parent class and makes it automatically add 1 to the severity attribute, with the cap still being 5"""
-
         reason = (
             get_complaint(target.decibel_estimate())
             if hasattr(target, "noise_source")
             else get_complaint()
         )
+
         grievance = Complaint(target, reason, severity + 1, escalated, day)
 
         # duplicate prevention
@@ -327,10 +327,11 @@ class NoisyNeighbour(Neighbour):
                 and g.reason == grievance.reason
             ):
                 reason = (
-get_complaint(target.decibel_estimate())
-           	if hasattr(target, "noise_source")
-           	else get_complaint()
-         )
+                    get_complaint(target.decibel_estimate())
+                    if hasattr(target, "noise_source")
+                    else get_complaint()
+                )
+
                 grievance = Complaint(target, reason, severity, escalated, day)
 
         print(f'"{reason}"\n')
@@ -626,23 +627,21 @@ class Street:
             # Title message
             day_title = f"Day: {i}"
 
-            print(f"{'=' * 75}")
+            print(f"{'-' * 75}")
             print(day_title.center(75))  # Center the day
-            print(f"{'=' * 75}\n")
+            print(f"{'-' * 75}\n")
 
             # Loops through every neighbour
             for neighbour in self.neighbourhood:
                 # Loops through the neighbour's feuds
                 for name in neighbour.feuds:
                     person = next(n for n in self.neighbourhood if n.name == name)
-                    chance_to_file = random.randint(
-                        1, 100
-                    )
+                    chance_to_file = random.randint(1, 100)
 
                     if (
                         person.noise_level >= 6
                         and neighbour.tolerance <= 3
-                        and chance_to_file > 25 # 50% chance to file a complaint
+                        and chance_to_file > 25  # 75% chance to file a complaint
                     ):
                         print(
                             f"{neighbour.name} filed a complaint against {person.name}."
@@ -665,30 +664,32 @@ class Street:
                                 print("")
 
                     # resolves the formal complaint
-                    elif isFormal and complaint.day < i - 2:
-                        if complaint.response != "Resolved":
-                            outcomes = ["Pending", "Lightened", "Worsened", "Resolved"]
-                            outcome = outcomes[random.randint(0, 2)]
-                            complaint.resolve("outcome")
+                    elif (
+                        isFormal
+                        and complaint.day < i - 2
+                        and complaint.response != "Resolved"
+                    ):
+                        outcomes = ["Pending", "Lightened", "Worsened", "Resolved"]
+                        outcome = outcomes[random.randint(0, 3)]
+                        complaint.resolve(outcome)
 
-                            if outcome != "Pending":
-                                print(complaint.reference_number)
+                        if outcome != "Pending":
+                            print(complaint.reference_number)
 
-                            if outcome == "Lightened":
-                                print(
-                                    f"A complaint from {neighbour.name} targeted towards {complaint.against.name} is cooling down.\n"
-                                )
-                            elif outcome == "Worsened":
-                                print(
-                                    f"A complaint from {neighbour.name} targeted towards {complaint.against.name} erupted in violence.\n"
-                                )
-                            elif outcome == "Resolved":
-                                print(
-                                    f"A complaint from {neighbour.name} targeted towards {complaint.against.name} has been resolved.\n"
-                                )
+                        if outcome == "Lightened":
+                            print(
+                                f"A complaint from {neighbour.name} targeted towards {complaint.against.name} is cooling down.\n"
+                            )
+                        elif outcome == "Worsened":
+                            print(
+                                f"A complaint from {neighbour.name} targeted towards {complaint.against.name} erupted in violence.\n"
+                            )
+                        elif outcome == "Resolved":
+                            print(
+                                f"A complaint from {neighbour.name} targeted towards {complaint.against.name} has been resolved.\n"
+                            )
 
-            print("\n\n")
-
+            print("\n")
 
         # calls the final two methods to finish up the run
         self.escalate_all()
@@ -782,7 +783,7 @@ my_street.add_neighbour(
         "Guitar",
         9,
         ["Paul Stanley", "Axel Hedfor", "Steve Angello"],
-        [],
+        [],  # no feuds
     )
 )
 my_street.add_neighbour(
