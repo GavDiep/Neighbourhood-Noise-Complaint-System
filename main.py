@@ -1,7 +1,7 @@
 # ============================================================
 #  THE NEIGHBOURHOOD NOISE COMPLAINT SYSTEM
 #  CS30 — Object-Oriented Programming 2 (CSE3130)
-#  Divine Mustafa
+#  Divine Mustafa, Gavin Diep, Sebastian Villanueva, Yuvraj Sond
 # ============================================================
 import random
 
